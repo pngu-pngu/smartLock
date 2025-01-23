@@ -1,4 +1,4 @@
-### Steps to Run Locally
+## Steps to Run Locally
   1. Clone Repo
   2. Cd into smart lock director. Make sure you are in the directory above src.
   3. open your terminal and type "npm start"
