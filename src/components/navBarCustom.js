@@ -13,8 +13,6 @@ import DriveEtaRoundedIcon from '@mui/icons-material/DriveEtaRounded';
 import AssessmentRoundedIcon from '@mui/icons-material/AssessmentRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import HistoryIcon from '@mui/icons-material/History';
-import { getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
-import { signOut } from 'aws-amplify/auth';
 import * as API from '../api.js';
 
 export const NavBarCustom = () => {

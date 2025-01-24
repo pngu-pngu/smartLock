@@ -1,9 +1,6 @@
 import React from 'react';
 import './App.css';
 import axios from 'axios';
-import { Amplify } from 'aws-amplify';
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
 //import awsExports from './aws-exports';
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom'; // Import Outlet here
