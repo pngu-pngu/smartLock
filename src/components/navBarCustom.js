@@ -89,11 +89,6 @@ export const NavBarCustom = () => {
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
           >
-            {userKind !== "noGroup" && (
-              <MenuItem onClick={() => { navigate(userKind === "driver" ? "/driverProfile" : "/sponsorProfile"); handleMenuClose(); }}>
-                Profile
-              </MenuItem>
-            )}
             <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
           </Menu>
         </Toolbar>
