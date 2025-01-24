@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom'; 
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { NavBarCustom } from "./components/navBarCustom";
 
 // Pages and Components
@@ -19,20 +19,18 @@ const Layout = () => (
 
 function App() {
   return (
-    <div className="App">
-      <Router>
-        <Routes>
-          {/* Redirect root "/" to "/about" */}
-          <Route path="/" element={<Navigate to="/about" replace />} />
+    <Router basename="/smartLock">
+      <Routes>
+        {/* Redirect root "/" to "/about" */}
+        <Route path="/" element={<Navigate to="/about" replace />} />
 
-          {/* Routes with Layout */}
-          <Route path="/" element={<Layout />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/about" element={<About />} />
-          </Route>
-        </Routes>
-      </Router>
-    </div>
+        {/* Routes with Layout */}
+        <Route path="/" element={<Layout />}>
+          <Route path="/home" element={<Home />} />
+          <Route path="/about" element={<About />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 
