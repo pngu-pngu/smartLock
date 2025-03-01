@@ -6,6 +6,7 @@ import { NavBarCustom } from "./components/navBarCustom";
 // Pages and Components
 import Home from './pages/Home';
 import About from './pages/about';
+import History from './pages/History';
 
 // Layout component for pages with the navbar
 const Layout = () => (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/history" element={<History />} />
         </Route>
       </Routes>
     </Router>
