@@ -13,24 +13,13 @@ export default function About() {
         flexDirection: 'column',
         minHeight: '100vh',
         // add URL
-        backgroundImage: 'url(https://t3.ftcdn.net/jpg/02/84/06/64/360_F_284066430_2AIa1pJN6fDQWoShnYTO34MoRZHTh8AZ.jpg)',
+        //backgroundImage: 'url(https://t3.ftcdn.net/jpg/02/84/06/64/360_F_284066430_2AIa1pJN6fDQWoShnYTO34MoRZHTh8AZ.jpg)',
+        backgroundColor: '#ffffff',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         position: 'relative',
       }}
     >
-      {/* Semi-transparent overlay */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          zIndex: 1,
-        }}
-      />
 
       {/* Content Box */}
       <Box
