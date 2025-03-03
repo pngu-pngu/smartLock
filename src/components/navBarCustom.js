@@ -82,7 +82,9 @@ export const NavBarCustom = () => {
       onClick={toggleDrawer(false)}>
 
       <List>
+
         {(menuItems.noGroup || []).map((item) => (
+
           <ListItem key={item.text} disablePadding>
             <ListItemButton onClick={() => navigate(item.path)}>
               <ListItemIcon>{item.icon}</ListItemIcon>
