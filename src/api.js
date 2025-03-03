@@ -6,8 +6,9 @@ await API.sponsorAPI.get()
 await API.userAPI.post({ nickname: 'Brian' }
 await driverAPI.patchById('driver001', { points: 150 }
 **/
+import axios from 'axios';
 
-const BASE_URL = '';
+const BASE_URL = 'https://h7axj91rie.execute-api.us-east-1.amazonaws.com/dev';
 
 
 function buildQueryParams(params) {
@@ -23,27 +24,22 @@ function buildQueryParams(params) {
 //set default body to null and method to get
 // Updated apiCall to include query parameters
 async function apiCall(endpoint, method = 'GET', body = null, queryParams = null) {
-    const options = {
-        method,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
-
-    if (body) options.body = JSON.stringify(body);
-
-    const queryString = buildQueryParams(queryParams);
+    const queryString = queryParams ? `?${new URLSearchParams(queryParams).toString()}` : '';
     const url = `${BASE_URL}${endpoint}${queryString}`;
-    console.log("url", url);
+
+    console.log(`Making API Call: ${method} ${url}`);  // Debugging
 
     try {
-        const response = await fetch(url, options);
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-        return response.json();
+        const response = await axios({
+            method,
+            url,
+            data: body,
+
+        });
+
+        return response.data;
     } catch (error) {
-        console.error('API call error:', error);
+        console.error('API call error:', error.response ? error.response.data : error.message);
         throw error;
     }
 }
@@ -60,9 +56,6 @@ export async function patch(endpoint, data, queryParams = null) {
     return apiCall(endpoint, 'PATCH', data, queryParams);
 }
 
-export async function patchForAbigail(endpoint, data) {
-    return apiCall(endpoint, 'PATCH', data);
-}
 
 export async function del(endpoint, queryParams = null) {
     return apiCall(endpoint, 'DELETE', null, queryParams);
@@ -70,11 +63,29 @@ export async function del(endpoint, queryParams = null) {
 
 
 
-// example api function
-export const exampleAPI = {
-    get: () => get('/example'),
-    post: (data) => post('/example', data),
-    getById: (id) => get(`/example/${id}`),
-    deleteById: (id) => del(`/example/${id}`),
-    patchById: (id, data) => patch(`/example/${id}`, data),
+// user api function
+export const userAPI = {
+    get: () => get('/user'),
+    post: (data) => post('/user', data),
+    getById: (id) => get(`/user/${id}`),
+    deleteById: (id) => del(`/user/${id}`),
+    patchById: (id, data) => patch(`/user/${id}`, data),
+};
+
+// user api function
+export const imagesAPI = {
+    get: () => get('/Images'),
+    post: (data) => post('/Images', data),
+    getById: (id) => get(`/Images/${id}`),
+    deleteById: (id) => del(`/Images/${id}`),
+    patchById: (id, data) => patch(`/Images/${id}`, data),
+};
+
+// user api function
+export const trustedAPI = {
+    get: () => get('/Trusted'),
+    post: (data) => post('/Trusted', data),
+    getById: (id) => get(`/Trusted/${id}`),
+    deleteById: (id) => del(`/Trusted/${id}`),
+    patchById: (id, data) => patch(`/Trusted/${id}`, data),
 };
