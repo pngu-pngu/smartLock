@@ -23,7 +23,7 @@ const userId = '000000001';
 
 async function updateUserAttributes(updatedAttributes) {
     try {
-        const response = API.userAPI.post(userId, updatedAttributes);
+        const response = API.userAPI.patchById(userId, updatedAttributes);
 
         console.log('User attributes updated:', response);
         return response;
@@ -51,22 +51,24 @@ const Profile = () => {
       try {
         const userAttributes = await API.userAPI.getById(userId);
         console.log(userAttributes);
+        const userData = userAttributes.values[0];
+        
 
         setProfile({
-          firstName: userAttributes.user_firstname || '',
-          lastName: userAttributes.user_lastname || '',
-          username: userAttributes.user_username || '',
-          password: userAttributes.user_password || '',
-          email: userAttributes.user_email || '',
+          firstName: userData.user_firstName || '',
+          lastName: userData.user_lastName || '',
+          username: userData.user_username || '',
+          password: userData.user_password || '',
+          email: userData.user_email || '',
 
         });
 
         setTempProfile({
-            firstName: userAttributes.user_firstname || '',
-            lastName: userAttributes.user_lastname || '',
-            username: userAttributes.user_username || '',
-            password: userAttributes.user_password || '',
-            email: userAttributes.user_email || '',
+            firstName: userData.user_firstName || '',
+            lastName: userData.user_lastName || '',
+            username: userData.user_username || '',
+            password: userData.user_password || '',
+            email: userData.user_email || '',
   
           });
 
@@ -121,9 +123,6 @@ const Profile = () => {
               <Typography variant="h4" gutterBottom>
                 {profile.firstName} {profile.lastName}
               </Typography>
-              <Typography variant="body1" gutterBottom>
-                {profile.bio}
-              </Typography>
               
             </Box>
           </Box>
@@ -175,11 +174,28 @@ const Profile = () => {
               margin="normal"
               disabled={!isEditable}
             />
+            <TextField
+              label="Password"
+              name="password"
+              value={tempProfile.password}
+              onChange={handleInputChange}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              disabled={!isEditable}
+            />
+            <TextField
+              label="Email"
+              name="email"
+              value={tempProfile.email}
+              onChange={handleInputChange}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              disabled={!isEditable}
+            />
           </Box>
 
-          <Typography variant="h6" gutterBottom style={{ marginTop: '16px' }}>
-            Bio
-          </Typography>
           <Divider />
 
 
