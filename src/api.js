@@ -72,7 +72,7 @@ export const userAPI = {
     patchById: (id, data) => patch(`/user/${id}`, data),
 };
 
-// user api function
+// images api function
 export const imagesAPI = {
     get: () => get('/Images'),
     post: (data) => post('/Images', data),
@@ -81,7 +81,7 @@ export const imagesAPI = {
     patchById: (id, data) => patch(`/Images/${id}`, data),
 };
 
-// user api function
+// trusted api function
 export const trustedAPI = {
     get: () => get('/Trusted'),
     post: (data) => post('/Trusted', data),
