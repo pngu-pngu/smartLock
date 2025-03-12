@@ -65,7 +65,8 @@ export const NavBarCustom = () => {
   const menuItems = {
     noGroup: [
       { text: "About", icon: <AssessmentRoundedIcon />, path: "/about" },
-      { text: "History", icon: <HistoryIcon />, path: "/history" } 
+      { text: "History", icon: <HistoryIcon />, path: "/history" } ,
+      { text: "Profile", icon: <AssessmentRoundedIcon />, path: "/profile"},
     ]
   };
   
