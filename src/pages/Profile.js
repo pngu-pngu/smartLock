@@ -21,9 +21,10 @@ import * as API from '../api';
 
 const userId = '000000001';
 
-async function updateUserAttributes(updatedAttributes) {
+async function updateUserAttributes(userAttributes) {
+  console.log(userAttributes);
     try {
-        const response = API.userAPI.patchById(userId, updatedAttributes);
+        const response = await API.userAPI.patchById(userId, userAttributes);
 
         console.log('User attributes updated:', response);
         return response;
@@ -37,11 +38,11 @@ async function updateUserAttributes(updatedAttributes) {
 const Profile = () => {
   const [isEditable, setIsEditable] = useState(false);
   const [profile, setProfile] = useState({
-    firstName: '',
-    lastName: '',
-    username: '',
-    password: '',
-    email: '',
+    user_firstName: '',
+    user_lastName: '',
+    user_username: '',
+    user_password: '',
+    user_email: '',
     //profilepic: '',
   });
   const [tempProfile, setTempProfile] = useState({ ...profile }); // Temporary state for input values
@@ -55,20 +56,20 @@ const Profile = () => {
         
 
         setProfile({
-          firstName: userData.user_firstName || '',
-          lastName: userData.user_lastName || '',
-          username: userData.user_username || '',
-          password: userData.user_password || '',
-          email: userData.user_email || '',
+          user_firstName: userData.user_firstName || '',
+          user_lastName: userData.user_lastName || '',
+          user_username: userData.user_username || '',
+          user_password: userData.user_password || '',
+          user_email: userData.user_email || '',
 
         });
 
         setTempProfile({
-            firstName: userData.user_firstName || '',
-            lastName: userData.user_lastName || '',
-            username: userData.user_username || '',
-            password: userData.user_password || '',
-            email: userData.user_email || '',
+            user_firstName: userData.user_firstName || '',
+            user_lastName: userData.user_lastName || '',
+            user_username: userData.user_username || '',
+            user_password: userData.user_password || '',
+            user_email: userData.user_email || '',
   
           });
 
@@ -83,14 +84,14 @@ const Profile = () => {
   const handleEditClick = async () => {
     if (isEditable) {
       const updatedAttributes = {
-        firstName: tempProfile.firstName ,
-        lastName: tempProfile.lastName,
-        username: tempProfile.username,
-        password: tempProfile.password,
-        email: tempProfile.email,
+        user_firstName: tempProfile.user_firstName ,
+        user_lastName: tempProfile.user_lastName,
+        user_username: tempProfile.user_username,
+        user_password: tempProfile.user_password,
+        user_email: tempProfile.user_email,
       };
       try {
-        await updateUserAttributes({ userAttributes: updatedAttributes });
+        await updateUserAttributes(updatedAttributes);
         setProfile(tempProfile);
         alert('Profile updated successfully!');
       } catch (error) {
@@ -121,7 +122,7 @@ const Profile = () => {
           <Box display="flex" alignItems="center" marginBottom={2}>
             <Box marginLeft={2}>
               <Typography variant="h4" gutterBottom>
-                {profile.firstName} {profile.lastName}
+                {profile.user_firstName} {profile.user_lastName}
               </Typography>
               
             </Box>
@@ -143,11 +144,10 @@ const Profile = () => {
           </Typography>
           <Divider />
           <Box marginBottom={2}>
-                      {/* Sponsor Section */}
             <TextField
               label="First Name"
-              name="firstName"
-              value={tempProfile.firstName}
+              name="user_firstName"
+              value={tempProfile.user_firstName}
               onChange={handleInputChange}
               fullWidth
               variant="outlined"
@@ -156,8 +156,8 @@ const Profile = () => {
             />
             <TextField
               label="Last Name"
-              name="lastName"
-              value={tempProfile.lastName}
+              name="user_lastName"
+              value={tempProfile.user_lastName}
               onChange={handleInputChange}
               fullWidth
               variant="outlined"
@@ -166,8 +166,8 @@ const Profile = () => {
             />
             <TextField
               label="Username"
-              name="username"
-              value={tempProfile.username}
+              name="user_username"
+              value={tempProfile.user_username}
               onChange={handleInputChange}
               fullWidth
               variant="outlined"
@@ -176,8 +176,8 @@ const Profile = () => {
             />
             <TextField
               label="Password"
-              name="password"
-              value={tempProfile.password}
+              name="user_password"
+              value={tempProfile.user_password}
               onChange={handleInputChange}
               fullWidth
               variant="outlined"
@@ -186,8 +186,8 @@ const Profile = () => {
             />
             <TextField
               label="Email"
-              name="email"
-              value={tempProfile.email}
+              name="user_email"
+              value={tempProfile.user_email}
               onChange={handleInputChange}
               fullWidth
               variant="outlined"
