@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import About from './pages/about';
 import History from './pages/History';
 import Profile from './pages/Profile';
+import Trusted from './pages/Trusted';
 
 // Layout component for pages with the navbar
 const Layout = () => (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/History" element={<History />} />
           <Route path="/Profile" element={<Profile />} />
+          <Route path="/Trusted" element={<Trusted />} />
         </Route>
       </Routes>
     </Router>
