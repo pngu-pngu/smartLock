@@ -21,34 +21,32 @@ import { v4 as uuidv4 } from "uuid";
 const userId = "000000001";
 
 const fetchTrustedData = async () => {
-    try {
-      const response = await API.trustedAPI.get({ trusted_user_id: userId });
-  
-      if (response && Array.isArray(response.values)) {
-        return response.values.map(person => {
-          let base64Image = "";
-  
-          if (person.trusted_profilepic && person.trusted_profilepic.data) {
-            // Convert Buffer data to Base64 safely
-            const uint8Array = new Uint8Array(person.trusted_profilepic.data);
-            const binaryString = uint8Array.reduce((acc, byte) => acc + String.fromCharCode(byte), "");
-            base64Image = `data:image/jpeg;base64,${btoa(binaryString)}`;
-          }
-  
-          return {
-            trusted_id: person.trusted_id,
-            trusted_name: person.trusted_name,
-            trusted_profilepic: base64Image
-          };
-        });
-      }
-      return [];
-    } catch (error) {
-      console.error("Error fetching trusted data:", error);
-      return [];
+  try {
+    const response = await API.trustedAPI.get({ trusted_user_id: userId });
+
+    if (response && Array.isArray(response.values)) {
+      return response.values.map(person => {
+        let base64Image = "";
+
+        if (person.trusted_profilepic && person.trusted_profilepic.data) {
+          const uint8Array = new Uint8Array(person.trusted_profilepic.data);
+          const binaryString = uint8Array.reduce((acc, byte) => acc + String.fromCharCode(byte), "");
+          base64Image = `data:image/jpeg;base64,${btoa(binaryString)}`;
+        }
+
+        return {
+          trusted_id: person.trusted_id,
+          trusted_name: person.trusted_name,
+          trusted_profilepic: base64Image
+        };
+      });
     }
-  };
-  
+    return [];
+  } catch (error) {
+    console.error("Error fetching trusted data:", error);
+    return [];
+  }
+};
 
 const Trusted = () => {
   const [trustedList, setTrustedList] = useState([]);
@@ -60,7 +58,6 @@ const Trusted = () => {
   useEffect(() => {
     const loadData = async () => {
       const data = await fetchTrustedData();
-      console.log("Fetched Data:", data); // Debugging step
       setTrustedList(data);
     };
     loadData();
@@ -90,17 +87,26 @@ const Trusted = () => {
     try {
       const newUser = {
         trusted_name: newPerson.name,
-        trusted_profilepic: newPerson.profilePic, // Already Base64-encoded
+        trusted_profilepic: newPerson.profilePic,
         trusted_user_id: userId,
         trusted_id: uuidv4(),
       };
 
       const response = await API.trustedAPI.post(newUser);
-      setTrustedList([...trustedList, response]); // Assuming API returns the created object
+      setTrustedList([...trustedList, response]);
       setIsAddDialogOpen(false);
       setNewPerson({ name: "", profilePic: "" });
     } catch (error) {
       console.error("Error adding trusted person:", error);
+    }
+  };
+
+  const handleDelete = async (trusted_id) => {
+    try {
+      await API.trustedAPI.deleteById(trusted_id);
+      setTrustedList(trustedList.filter(person => person.trusted_id !== trusted_id));
+    } catch (error) {
+      console.error("Error deleting trusted person:", error);
     }
   };
 
@@ -110,7 +116,7 @@ const Trusted = () => {
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      setNewPerson({ ...newPerson, profilePic: reader.result.split(",")[1] }); // Extract Base64 content
+      setNewPerson({ ...newPerson, profilePic: reader.result.split(",")[1] });
     };
     reader.readAsDataURL(file);
   };
@@ -121,7 +127,6 @@ const Trusted = () => {
         Trusted Individuals
       </Typography>
 
-      {/* Add Trusted User Button - Positioned Below Title */}
       <Box sx={{ display: "flex", justifyContent: "flex-end", marginBottom: 2 }}>
         <Button
           variant="contained"
@@ -154,13 +159,20 @@ const Trusted = () => {
                 >
                   View/Edit
                 </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleDelete(person.trusted_id)}
+                  sx={{ marginLeft: 1 }}
+                >
+                  Delete
+                </Button>
               </CardContent>
             </Card>
           </Grid>
         ))}
       </Grid>
 
-      {/* Edit Dialog */}
       {selectedPerson && (
         <Dialog open={Boolean(selectedPerson)} onClose={() => setSelectedPerson(null)}>
           <DialogTitle>Edit {selectedPerson.trusted_name}</DialogTitle>
@@ -183,7 +195,6 @@ const Trusted = () => {
         </Dialog>
       )}
 
-      {/* Add Trusted User Dialog */}
       <Dialog open={isAddDialogOpen} onClose={() => setIsAddDialogOpen(false)}>
         <DialogTitle>Add Trusted User</DialogTitle>
         <DialogContent>
