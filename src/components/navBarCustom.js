@@ -15,6 +15,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import HistoryIcon from '@mui/icons-material/History';
 import * as API from '../api.js';
+import { useContext } from 'react';
+import UserContext from '../context/UserContext';
 
 const theme = createTheme({
   palette: {
@@ -36,7 +38,8 @@ export const NavBarCustom = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [userKind, setUserKind] = useState(null);
-  const [givenName, setGivenName] = useState(""); // User's given name
+  const { user } = useContext(UserContext);
+ // User's given name
   const navigate = useNavigate();
 
 
@@ -108,11 +111,11 @@ export const NavBarCustom = () => {
             <IconButton onClick={toggleDrawer(true)}>
               <MenuRoundedIcon sx={{ color: "white" }} />
             </IconButton>
-            <Link to="/about" style={{ textDecoration: 'none', marginLeft: 10 }}>
+            <Link to="/home" style={{ textDecoration: 'none', marginLeft: 10 }}>
               <HomeRoundedIcon sx={{ color: "white" }} />
             </Link>
             <Typography variant="h6" sx={{ flexGrow: 1, marginLeft: 2 }}>
-              Hello, {givenName}
+            Hello, {user.givenName || ''}
             </Typography>
             <IconButton onClick={handleMenuOpen}>
               <AccountCircleRoundedIcon sx={{ color: "white" }} />
