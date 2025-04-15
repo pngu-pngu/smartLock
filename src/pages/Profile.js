@@ -21,7 +21,7 @@ import * as API from '../api';
 import { useContext } from 'react';
 import UserContext from '../context/UserContext';
 
-const userId = '000000001';
+const userId = localStorage.getItem('user_id');
 
 async function updateUserAttributes(userAttributes) {
   console.log(userAttributes);

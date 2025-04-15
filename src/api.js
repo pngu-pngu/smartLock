@@ -25,21 +25,23 @@ function buildQueryParams(params) {
 // Updated apiCall to include query parameters
 async function apiCall(endpoint, method = 'GET', body = null, queryParams = null) {
     const queryString = queryParams ? `?${new URLSearchParams(queryParams).toString()}` : '';
-    const url = `${BASE_URL}${endpoint}${queryString}`;
+    const url = `${BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}${queryString}`;
 
-    console.log(`Making API Call: ${method} ${url}`);  // Debugging
+    console.log("API Call Details:", { method, url, body, queryParams });
 
     try {
         const response = await axios({
             method,
             url,
             data: body,
-
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
 
         return response.data;
     } catch (error) {
-        console.error('API call error:', error.response ? error.response.data : error.message);
+        console.error('API call error:', error.response ? error.response.data : error);
         throw error;
     }
 }
@@ -68,6 +70,7 @@ export const userAPI = {
     get: () => get('/user'),
     post: (data) => post('/user', data),
     getById: (id) => get(`/user/${id}`),
+    getByUsername: (username) => get('/user', { user_username: username }),
     deleteById: (id) => del(`/user/${id}`),
     patchById: (id, data) => patch(`/user/${id}`, data),
 };
