@@ -18,7 +18,7 @@ import AddIcon from "@mui/icons-material/Add";
 import * as API from "../api.js";
 import { v4 as uuidv4 } from "uuid";
 
-const userId = "000000001";
+const userId = localStorage.getItem('user_id');
 
 const fetchTrustedData = async () => {
   try {

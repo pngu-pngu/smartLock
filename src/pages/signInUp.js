@@ -51,11 +51,26 @@ const CustomAuthForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { username, email, password, confirmPassword, firstName, lastName } = formData;
-
+        const { password, confirmPassword, firstName, lastName, email, username } = formData;
+    
         if (mode === MODES.SIGN_IN) {
             try {
-
+                const response = await API.userAPI.getByUsername(username);
+                console.log("got username", response.values[0]);
+                const user = response.values[0];
+    
+                if (!user) {
+                    alert('User not found');
+                    return;
+                }
+    
+                if (user.user_password !== password) {
+                    alert('Incorrect password');
+                    return;
+                }
+                // ✅ Set user_id globally
+                localStorage.setItem('user_id', user.user_id); 
+    
                 alert('Sign-in successful');
                 navigate('/about');
             } catch (error) {
@@ -66,17 +81,25 @@ const CustomAuthForm = () => {
                 alert('Passwords do not match');
                 return;
             }
-
+    
             try {
-
-                const userData = { username, firstName, lastName, email };
+                const userData = {
+                    user_username: username,
+                    user_firstName: firstName,
+                    user_lastName: lastName,
+                    user_email: email,
+                    user_password: password, // <-- Make sure to include this!
+                    user_id: uuidv4(),
+                };
+    
                 const response = await API.userAPI.post(userData);
-
-                if (response.status === 200) {
+                console.log(response);
+    
+                if (response.message === 'Record inserted into user') {
                     alert('Sign up successful! Please check your email to confirm your account.');
-                    navigate('/confirm', { state: { username } });
+                    setMode(MODES.SIGN_IN);
+                    navigate('/signInUp');
                 }
-                
             } catch (error) {
                 alert(`Error signing up: ${error.message}`);
             }

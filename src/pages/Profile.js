@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 import * as API from '../api';
 
-const userId = '000000001';
+const userId = localStorage.getItem('user_id');
 
 async function updateUserAttributes(userAttributes) {
   console.log(userAttributes);
