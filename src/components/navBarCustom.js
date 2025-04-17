@@ -140,7 +140,7 @@ export const NavBarCustom = () => {
           <IconButton onClick={toggleDrawer(true)}>
             <MenuRoundedIcon sx={{ color: "white" }} />
           </IconButton>
-          <Link to="/about" style={{ textDecoration: 'none', marginLeft: 10 }}>
+          <Link to="/home" style={{ textDecoration: 'none', marginLeft: 10 }}>
             <HomeRoundedIcon sx={{ color: "white" }} />
           </Link>
         </Box>
