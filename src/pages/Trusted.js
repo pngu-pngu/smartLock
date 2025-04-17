@@ -92,17 +92,21 @@ const Trusted = () => {
         trusted_user_id: userId,
         trusted_id: uuidv4(),
       };
-
-
-
-      const response = await API.trustedAPI.post(newUser);
-      setTrustedList([...trustedList, response]);
+  
+      // Add the new user via API
+      await API.trustedAPI.post(newUser);
+  
+      // After adding, refetch the trusted list to reflect the change
+      const data = await fetchTrustedData();
+      setTrustedList(data); // Update the state with new trusted data
+  
       setIsAddDialogOpen(false);
       setNewPerson({ name: "", profilePic: "" });
     } catch (error) {
       console.error("Error adding trusted person:", error);
     }
   };
+  
 
   const handleDelete = async (trusted_id) => {
     try {
@@ -147,7 +151,7 @@ const Trusted = () => {
             <Card>
               <CardMedia
                 component="img"
-                height="300"
+                height="500"
                 image={person.trusted_profilepic}
                 alt={person.trusted_name}
               />
