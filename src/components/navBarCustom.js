@@ -18,6 +18,7 @@ import * as API from '../api.js';
 import { useContext } from 'react';
 import UserContext from '../context/UserContext';
 
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -32,14 +33,17 @@ const theme = createTheme({
   },
 });
 
+
+
 export const NavBarCustom = () => {
 
 
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [userKind, setUserKind] = useState(null);
-  const { user } = useContext(UserContext);
- // User's given name
+  const [givenName, setGivenName] = useState(""); // 👈 User's given name
+
+
   const navigate = useNavigate();
 
 
@@ -54,6 +58,24 @@ export const NavBarCustom = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  // 👇 Fetch the user's name on component load
+  useEffect(() => {
+      const fetchUser = async () => {
+        try {
+          const userId = localStorage.getItem('user_id'); // You can update this if it's dynamic
+          const userData = await API.userAPI.getById(userId);
+          console.log("userData",userData.values[0]);
+          // If API returns an array: setGivenName(userData[0]?.given_name || "User");
+          setGivenName(userData.values[0].user_firstName || "User");
+        } catch (error) {
+          console.error("Failed to fetch user data:", error);
+          setGivenName("Guest");
+        }
+      };
+  
+      fetchUser();
+  }, []);
 
   const handleSignOut = async () => {
     try {
@@ -107,27 +129,46 @@ export const NavBarCustom = () => {
       <div>
         
         <AppBar position="static">
-          <Toolbar>
-            <IconButton onClick={toggleDrawer(true)}>
-              <MenuRoundedIcon sx={{ color: "white" }} />
-            </IconButton>
-            <Link to="/home" style={{ textDecoration: 'none', marginLeft: 10 }}>
-              <HomeRoundedIcon sx={{ color: "white" }} />
-            </Link>
-            <Typography variant="h6" sx={{ flexGrow: 1, marginLeft: 2 }}>
-            Hello, {user.givenName || ''}
-            </Typography>
-            <IconButton onClick={handleMenuOpen}>
-              <AccountCircleRoundedIcon sx={{ color: "white" }} />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
-            >
-              <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
-            </Menu>
-          </Toolbar>
+
+        <Toolbar sx={{ position: "relative" }}>
+        {/* Left: Drawer + Home Button */}
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <IconButton onClick={toggleDrawer(true)}>
+            <MenuRoundedIcon sx={{ color: "white" }} />
+          </IconButton>
+          <Link to="/about" style={{ textDecoration: 'none', marginLeft: 10 }}>
+            <HomeRoundedIcon sx={{ color: "white" }} />
+          </Link>
+        </Box>
+
+        {/* Center: Greeting */}
+        <Typography
+          variant="h6"
+          sx={{
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+            color: "white",
+          }}
+        >
+          Hello, {givenName}
+        </Typography>
+
+        {/* Right: Profile Icon + Menu */}
+        <Box sx={{ marginLeft: "auto" }}>
+          <IconButton onClick={handleMenuOpen}>
+            <AccountCircleRoundedIcon sx={{ color: "white" }} />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+          >
+            <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+          </Menu>
+        </Box>
+      </Toolbar>
+
         </AppBar>
         <Drawer open={open} onClose={toggleDrawer(false)}>
           {DrawerList}
