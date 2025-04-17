@@ -93,7 +93,7 @@ const Trusted = () => {
         trusted_id: uuidv4(),
       };
 
-      const base64Image = newPerson.profilePic;
+
 
       const response = await API.trustedAPI.post(newUser);
       setTrustedList([...trustedList, response]);
