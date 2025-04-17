@@ -79,7 +79,11 @@ export const NavBarCustom = () => {
 
   const handleSignOut = async () => {
     try {
-      navigate('/'); // Redirect to home page after sign-out
+      // Clear user session
+      localStorage.removeItem('user_id');
+  
+      // Redirect to sign-in page
+      navigate('/signInUp');
     } catch (error) {
       console.error("Error signing out:", error);
     }
