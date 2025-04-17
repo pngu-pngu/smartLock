@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/smartLock/static/css/main.87d90a47.css",
-    "main.js": "/smartLock/static/js/main.97f0aa7d.js",
+    "main.js": "/smartLock/static/js/main.ed6369b2.js",
     "static/js/453.12ce750c.chunk.js": "/smartLock/static/js/453.12ce750c.chunk.js",
     "index.html": "/smartLock/index.html",
     "main.87d90a47.css.map": "/smartLock/static/css/main.87d90a47.css.map",
-    "main.97f0aa7d.js.map": "/smartLock/static/js/main.97f0aa7d.js.map",
+    "main.ed6369b2.js.map": "/smartLock/static/js/main.ed6369b2.js.map",
     "453.12ce750c.chunk.js.map": "/smartLock/static/js/453.12ce750c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.87d90a47.css",
-    "static/js/main.97f0aa7d.js"
+    "static/js/main.ed6369b2.js"
   ]
 }
