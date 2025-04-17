@@ -23,15 +23,16 @@ const userId = localStorage.getItem('user_id');
 const fetchTrustedData = async () => {
   try {
     const response = await API.trustedAPI.get({ trusted_user_id: userId });
-
+    console.log("response", response);
     if (response && Array.isArray(response.values)) {
       return response.values.map(person => {
         let base64Image = "";
 
-        if (person.trusted_profilepic && person.trusted_profilepic.data) {
-          const uint8Array = new Uint8Array(person.trusted_profilepic.data);
-          const binaryString = uint8Array.reduce((acc, byte) => acc + String.fromCharCode(byte), "");
-          base64Image = `data:image/jpeg;base64,${btoa(binaryString)}`;
+  
+
+        if (person.trusted_profilepic ) {
+          base64Image = `data:image/jpeg;base64,${person.trusted_profilepic}`; // Ensure the prefix is added here
+          console.log("base64", base64Image);
         }
 
         return {
@@ -91,6 +92,8 @@ const Trusted = () => {
         trusted_user_id: userId,
         trusted_id: uuidv4(),
       };
+
+
 
       const response = await API.trustedAPI.post(newUser);
       setTrustedList([...trustedList, response]);
