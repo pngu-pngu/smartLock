@@ -18,6 +18,8 @@ import {
   MenuItem,
 } from '@mui/material';
 import * as API from '../api';
+import { useContext } from 'react';
+import UserContext from '../context/UserContext';
 
 const userId = localStorage.getItem('user_id');
 
@@ -46,6 +48,7 @@ const Profile = () => {
     //profilepic: '',
   });
   const [tempProfile, setTempProfile] = useState({ ...profile }); // Temporary state for input values
+  const { setUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,9 +76,13 @@ const Profile = () => {
   
           });
 
+        setUser({ givenName: userData.user_firstName || '' });
+
+
       } catch (err) {
         console.error('Error fetching user data:', err);
       }
+
     };
 
     fetchData();
@@ -93,6 +100,7 @@ const Profile = () => {
       try {
         await updateUserAttributes(updatedAttributes);
         setProfile(tempProfile);
+        setUser({ givenName: tempProfile.user_firstName });
         alert('Profile updated successfully!');
       } catch (error) {
         console.error('Error updating user attributes:', error);

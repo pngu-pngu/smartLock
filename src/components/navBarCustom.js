@@ -15,6 +15,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import HistoryIcon from '@mui/icons-material/History';
 import * as API from '../api.js';
+import { useContext } from 'react';
+import UserContext from '../context/UserContext';
 
 
 const theme = createTheme({
@@ -40,6 +42,8 @@ export const NavBarCustom = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [userKind, setUserKind] = useState(null);
   const [givenName, setGivenName] = useState(""); // 👈 User's given name
+
+
   const navigate = useNavigate();
 
 
@@ -125,6 +129,7 @@ export const NavBarCustom = () => {
       <div>
         
         <AppBar position="static">
+
         <Toolbar sx={{ position: "relative" }}>
         {/* Left: Drawer + Home Button */}
         <Box sx={{ display: "flex", alignItems: "center" }}>

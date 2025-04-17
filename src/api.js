@@ -92,3 +92,12 @@ export const trustedAPI = {
     deleteById: (id) => del(`/Trusted/${id}`),
     patchById: (id, data) => patch(`/Trusted/${id}`, data),
 };
+
+// lock status *skeleton* api function
+export async function getStatus() {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return {
+      lock_status: Math.random() > 0.5 ? "Unlocked" : "Locked",
+      battery_level: Math.floor(Math.random() * 41) + 60 // Random % between 60–100
+    };
+  }
