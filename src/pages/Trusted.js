@@ -18,11 +18,12 @@ import AddIcon from "@mui/icons-material/Add";
 import * as API from "../api.js";
 import { v4 as uuidv4 } from "uuid";
 
-const userId = localStorage.getItem('user_id');
 
 const fetchTrustedData = async () => {
   try {
-    const response = await API.trustedAPI.get({ trusted_user_id: userId });
+    const userId = localStorage.getItem('user_id');
+    console.log("userid currently is", userId);
+    const response = await API.trustedAPI.getByUser(userId );
     console.log("response", response);
     if (response && Array.isArray(response.values)) {
       return response.values.map(person => {
@@ -32,7 +33,7 @@ const fetchTrustedData = async () => {
 
         if (person.trusted_profilepic ) {
           base64Image = `data:image/jpeg;base64,${person.trusted_profilepic}`; // Ensure the prefix is added here
-          console.log("base64", base64Image);
+          //console.log("base64", base64Image);
         }
 
         return {
@@ -89,20 +90,24 @@ const Trusted = () => {
       const newUser = {
         trusted_name: newPerson.name,
         trusted_profilepic: newPerson.profilePic,
-        trusted_user_id: userId,
+        trusted_user_id: localStorage.getItem('user_id'),
         trusted_id: uuidv4(),
       };
-
-
-
-      const response = await API.trustedAPI.post(newUser);
-      setTrustedList([...trustedList, response]);
+  
+      // Add the new user via API
+      await API.trustedAPI.post(newUser);
+  
+      // After adding, refetch the trusted list to reflect the change
+      const data = await fetchTrustedData();
+      setTrustedList(data); // Update the state with new trusted data
+  
       setIsAddDialogOpen(false);
       setNewPerson({ name: "", profilePic: "" });
     } catch (error) {
       console.error("Error adding trusted person:", error);
     }
   };
+  
 
   const handleDelete = async (trusted_id) => {
     try {
@@ -147,7 +152,7 @@ const Trusted = () => {
             <Card>
               <CardMedia
                 component="img"
-                height="300"
+                height="500"
                 image={person.trusted_profilepic}
                 alt={person.trusted_name}
               />

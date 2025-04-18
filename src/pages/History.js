@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const fetchHistoryData = async () => {
   try {
-    const imagesResponse = await API.imagesAPI.get(); // Fetch images from the API
+    const imagesResponse = await API.imagesAPI.getByUser(localStorage.getItem('user_id')); // Fetch images from the API
     
     console.log("Raw API response:", imagesResponse);
 
@@ -25,7 +25,7 @@ const fetchHistoryData = async () => {
           
           let base64Image = "";
           base64Image = `data:image/jpeg;base64,${image.image_image}`; // Ensure the prefix is added here
-          console.log("base64", base64Image);
+          //console.log("base64", base64Image);
           
 
           return {
