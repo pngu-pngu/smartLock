@@ -81,6 +81,7 @@ export const NavBarCustom = () => {
     try {
       // Clear user session
       localStorage.removeItem('user_id');
+      localStorage.clear();
   
       // Redirect to sign-in page
       navigate('/signInUp');

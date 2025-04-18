@@ -21,9 +21,10 @@ import * as API from '../api';
 import { useContext } from 'react';
 import UserContext from '../context/UserContext';
 
-const userId = localStorage.getItem('user_id');
+
 
 async function updateUserAttributes(userAttributes) {
+  const userId = localStorage.getItem('user_id');
   console.log(userAttributes);
     try {
         const response = await API.userAPI.patchById(userId, userAttributes);
@@ -53,7 +54,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userAttributes = await API.userAPI.getById(userId);
+        const userAttributes = await API.userAPI.getById(localStorage.getItem('user_id'));
         console.log(userAttributes);
         const userData = userAttributes.values[0];
         

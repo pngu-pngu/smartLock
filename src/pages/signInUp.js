@@ -68,7 +68,9 @@ const CustomAuthForm = () => {
                     alert('Incorrect password');
                     return;
                 }
+           
                 // ✅ Set user_id globally
+                console.log("setting local storage user id to", user.user_id);
                 localStorage.setItem('user_id', user.user_id); 
     
                 alert('Sign-in successful');
@@ -88,7 +90,7 @@ const CustomAuthForm = () => {
                     user_firstName: firstName,
                     user_lastName: lastName,
                     user_email: email,
-                    user_password: password, // <-- Make sure to include this!
+                    user_password: password, 
                     user_id: uuidv4(),
                 };
     
@@ -134,19 +136,19 @@ const CustomAuthForm = () => {
                 {mode !== MODES.SIGN_IN && (
                     <>
                         <TextField
-                            label="Email"
-                            name="email"
-                            value={formData.email}
+                            label="Confirm Password"
+                            type="password"
+                            name="confirmPassword"
+                            value={formData.confirmPassword}
                             onChange={handleChange}
                             fullWidth
                             margin="normal"
                             required
                         />
                         <TextField
-                            label="Confirm Password"
-                            type="password"
-                            name="confirmPassword"
-                            value={formData.confirmPassword}
+                            label="Email"
+                            name="email"
+                            value={formData.email}
                             onChange={handleChange}
                             fullWidth
                             margin="normal"

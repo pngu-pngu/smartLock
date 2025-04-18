@@ -80,6 +80,7 @@ export const imagesAPI = {
     get: () => get('/Images'),
     post: (data) => post('/Images', data),
     getById: (id) => get(`/Images/${id}`),
+    getByUser: (user_id) => get('/Images', { image_user_id: user_id }),
     deleteById: (id) => del(`/Images/${id}`),
     patchById: (id, data) => patch(`/Images/${id}`, data),
 };
@@ -89,6 +90,7 @@ export const trustedAPI = {
     get: () => get('/Trusted'),
     post: (data) => post('/Trusted', data),
     getById: (id) => get(`/Trusted/${id}`),
+    getByUser: (user_id) => get('/Trusted', { trusted_user_id: user_id }),
     deleteById: (id) => del(`/Trusted/${id}`),
     patchById: (id, data) => patch(`/Trusted/${id}`, data),
 };
