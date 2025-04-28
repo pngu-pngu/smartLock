@@ -8,9 +8,9 @@ const BUCKET_NAME = "smartlockimages";
 const BUCKET = 'smartlockimages';
 
 const rdsConfig = {
-  host: "smartlock.c7ijhqri3hxc.us-east-1.rds.amazonaws.com",
-  user: "tony",
-  password: "!234!234CLEMSON",
+  host: ".rds.amazonaws.com",
+  user: "user",
+  password: "password",
   database: "smartLock",
 };
 
