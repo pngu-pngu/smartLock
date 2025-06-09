@@ -8,7 +8,7 @@ await driverAPI.patchById('driver001', { points: 150 }
 **/
 import axios from 'axios';
 
-const BASE_URL = 'https://h7axj91rie.execute-api.us-east-1.amazonaws.com/dev';
+const BASE_URL = 'baseURL';
 
 
 function buildQueryParams(params) {
